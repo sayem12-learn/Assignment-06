@@ -1,14 +1,14 @@
-const allPlants = ()=>{
+const allPlants = () => {
     const url = 'https://openapi.programming-hero.com/api/plants';
     fetch(url)
-    .then(res => res.json())
-    .then(plants =>{
-        showPlants(plants.plants)
-    })
+        .then(res => res.json())
+        .then(plants => {
+            showPlants(plants.plants)
+        })
 }
 
 
-const showPlants = (show)=>{
+const showPlants = (show) => {
     const plantsContainer = document.getElementById('plants-container');
     plantsContainer.innerHTML = '';
 
@@ -24,39 +24,73 @@ const showPlants = (show)=>{
                     <p class="text-left text-[0.8rem]"> ${plant.description} </p>
                 
                 <div class="flex justify-between items-center mt-2">
-                    <button class="text-[0.8rem] border-1 border-[#a1edbc] p-2 rounded-3xl"> ${plant.category}</button>
+                    <button onclick="loadPlantsDetails(${plant.id})" class="text-[0.8rem] bg-[#a1edbc] p-2 rounded-3xl"> ${plant.category}</button>
                     <button class="font-medium "> ${plant.price} tk</button>
                 </div>
                 <button class="bg-[#15803d] text-white font-medium py-1 px-4 rounded-2xl w-full mt-2">Add to Cart</button>
             </div>        
         `;
         plantsContainer.append(div)
-        
+
     });
 
 
 
 }
 
-
-const allCategories = ()=>{
-    const url = 'https://openapi.programming-hero.com/api/categories'
+// Plants Detail
+const loadPlantsDetails = (id)=>{
+    const url = `https://openapi.programming-hero.com/api/plant/${id}`
     fetch(url)
     .then(res => res.json())
-    .then(categories =>{
-        showCategories(categories.categories)
+    .then(details=>{
+        showPlantsDetails(details.plants)
+
     })
 }
+const  showPlantsDetails = (plants) => {
+    const detailsContainer = document.getElementById('details-container')
+    detailsContainer.innerHTML = `
+    <div class="  bg-white shadow-lg rounded-md text-center p-3 w-full">
 
-const showCategories = show =>{
+                <div><img class=" h-[250px] w-full  rounded-lg" src="${plants.image} " alt=""></div>
+                
+                    <h1 class="font-semibold text-xl text-left mt-3"> ${plants.name} </h1>
+                    <p class="text-left text-[0.8rem]"> ${plants.description} </p>
+                
+                <div class="flex justify-between items-center mt-2">
+                    <button class="font-medium "> ${plants.price} tk</button>
+                </div>
+                
+            </div> 
+    
+    
+    `;
+
+    document.getElementById('my_modal_5').showModal()
+}
+
+
+
+
+const allCategories = () => {
+    const url = 'https://openapi.programming-hero.com/api/categories'
+    fetch(url)
+        .then(res => res.json())
+        .then(categories => {
+            showCategories(categories.categories)
+        })
+}
+
+const showCategories = show => {
     const categoriesContainer = document.getElementById('categories-container')
     categoriesContainer.innerHTML = '';
 
-    show.forEach(data=>{
+    show.forEach(data => {
         const li = document.createElement('li')
         li.innerHTML = `
         
-         <button id="categories-Btn-${data.category_name}" onclick="categoriesBtn('${data.id}')" class=" hover:bg-[#15803d] py-1 px-4 hover:text-white rounded-lg font-medium categories-Btn">${data.category_name}</button>
+         <button id="categories-Btn-${data.id}" onclick="categoriesBtn('${data.id}')" class=" hover:bg-[#15803d] py-1 px-4  hover:text-white rounded-lg font-medium categories-Btn">${data.category_name}</button>
         
         
         
@@ -65,26 +99,47 @@ const showCategories = show =>{
         categoriesContainer.append(li)
     })
 }
+const removeActiveBtn = () => {
+    const removeBtn = document.querySelectorAll('.categories-Btn')
+    removeBtn.forEach(btn => {
+        btn.classList.remove('active')
+    })
 
-const categoriesBtn = (id)=>{
+}
+
+
+
+
+const categoriesBtn = (id) => {
     const url = `https://openapi.programming-hero.com/api/category/${id}`
     fetch(url)
-    .then(res=> res.json())
-    .then(plants=>{
-        plantsDisplay(plants.plants)
-    })
+        .then(res => res.json())
+        .then(plants => {
+            removeActiveBtn()
+            const clickBtn = document.getElementById(`categories-Btn-${id}`)
+            clickBtn.classList.add('active')
+
+
+
+            plantsDisplay(plants.plants)
+        })
+
+
+
+
+
 }
-const plantsDisplay = (display)=>{
+const plantsDisplay = (display) => {
     const categoriesPlants = document.getElementById('categories-plants')
-     const plantsContainer = document.getElementById('plants-container');
-     plantsContainer.innerHTML = '';
+    const plantsContainer = document.getElementById('plants-container');
+    plantsContainer.innerHTML = '';
 
-    categoriesPlants.innerHTML ='';
+    categoriesPlants.innerHTML = '';
 
 
-    display.forEach(plant=>{
+    display.forEach(plant => {
         const div = document.createElement('div')
-        div.innerHTML =  `
+        div.innerHTML = `
 
          <div class="  bg-white shadow-lg rounded-md text-center p-3 w-[300px]">
 
@@ -94,7 +149,7 @@ const plantsDisplay = (display)=>{
                     <p class="text-left text-[0.8rem]"> ${plant.description} </p>
                 
                 <div class="flex justify-between items-center mt-2">
-                    <button class="text-[0.8rem] border-1 border-[#a1edbc] p-2 rounded-3xl"> ${plant.category}</button>
+                    <button onclick="loadPlantsDetails(${plant.id})" class="text-[0.8rem] bg-[#a1edbc] p-2 rounded-3xl"> ${plant.category}</button>
                     <button class="font-medium "> ${plant.price} tk</button>
                 </div>
                 <button class="bg-[#15803d] text-white font-medium py-1 px-4 rounded-2xl w-full mt-2">Add to Cart</button>
@@ -108,6 +163,8 @@ const plantsDisplay = (display)=>{
 
 
 
- allCategories()
+
+
+allCategories()
 
 allPlants()
