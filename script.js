@@ -169,7 +169,7 @@ const renderCart = () => {
 
 
     const itemsHTML = cartArr.map((item, index) => `
-        <div class="flex justify-between bg-white gap-10 mt-3 p-3 rounded-lg">
+        <div class="flex justify-between bg-[#f0fdf4] gap-10 mt-3 p-3 rounded-lg">
             <div>
                 <h3 class="font-semibold">${item.name}</h3>
                 <p class="font-semibold">${item.price} tk</p>
@@ -197,6 +197,7 @@ const renderCart = () => {
 document.addEventListener('click', (e) => {
     const addBtn = e.target.closest('.addCartD');
     if (addBtn) {
+       
         
         const card = addBtn.closest('.bg-white.shadow-lg.rounded-md');
         if (!card) return;
@@ -208,14 +209,13 @@ document.addEventListener('click', (e) => {
         const priceText = priceEl ? priceEl.textContent.trim() : '0';
        const price = parseInt(priceText) || 0;
 
+        alert(`${name} has been added to the cart`)
+
 
         cartArr.push({ name, price });
         renderCart();
     }
 });
-
-
-
 
 
 
