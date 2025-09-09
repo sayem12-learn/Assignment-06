@@ -215,6 +215,10 @@ document.addEventListener('click', (e) => {
 });
 
 
+
+
+
+
 const cartContainerStatic = document.getElementById('cart-container');
 if (cartContainerStatic) {
     cartContainerStatic.addEventListener('click', (e) => {

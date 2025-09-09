@@ -28,5 +28,5 @@ ans- Destructuring assignment ES6-এ একটি syntax যা array বা ob
 
 
 #### 5) Explain template literals in ES6. How are they different from string concatenation?
-ans- Template literals ES6-এ string লেখার একটি সহজ ও শক্তিশালী উপায়, যা backticks `````` ব্যবহার করে লেখা হয়। এতে variable interpolation (${variable}) এবং multi-line strings সহজ হয়।
+ans- Template literals ES6-এ string লেখার একটি সহজ ও শক্তিশালী উপায়, যা backticks `````` ব্যবহার করে লেখা হয়। এতে variable interpolation (${variable}) এবং multi-line strings সহজ হয়।L
 
